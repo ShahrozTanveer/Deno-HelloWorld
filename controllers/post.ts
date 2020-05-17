@@ -21,7 +21,7 @@ const createPost: HandlerFunc = async (c: Context) => {
   console.log("test ::: here");
   try {
     const body = await (c.body());
-    console.log("body");
+    console.log(`This is body ${body}`);
 
     if (!Object.keys(body).length) {
       return c.string("Request body can not be empty!", 400);

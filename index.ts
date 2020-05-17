@@ -5,7 +5,6 @@ import {
   createPost,
   fetchOnePost,
 } from "./controllers/post.ts";
-const decoder = new TextDecoder();
 const app = new Application();
 
 app.get("/post", fetchAllPost)
