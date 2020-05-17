@@ -12,4 +12,4 @@ app.get("/post", fetchAllPost)
   .get("/post/:id", fetchOnePost)
   .start({ port: 5000 });
 
-console.log(`server listening on http://localhost:5000 `);
+console.log(`server is on http://localhost:5000 `);

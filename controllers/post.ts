@@ -6,7 +6,6 @@ import db from "../config/db.ts";
 
 const database = db.getDatabase;
 const post = database.collection("post");
-console.log("test");
 interface Post {
   _id: {
     $oid: string;
@@ -14,28 +13,35 @@ interface Post {
   title: string;
   content: string;
   author: string;
-  date: Date;
+  date: string;
 }
 
 const createPost: HandlerFunc = async (c: Context) => {
-  console.log("test ::: here");
+  // console.log("test ::: here");
   try {
     const body = await (c.body());
-    console.log(`This is body ${body}`);
+    // console.log(`This is body ${body}`);
 
     if (!Object.keys(body).length) {
       return c.string("Request body can not be empty!", 400);
     }
     const { title, content, author } = body;
-    const date = Date.now();
-    console.log(`${date} here`);
+
+    const today = new Date();
+    const d = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" +
+      today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" +
+      today.getSeconds();
+    const date = d + " " + time;
+    // const date = Date.now();
+    // console.log(`${date} here`);
     const insertedPost = await post.insertOne({
       title,
       content,
       author,
       date,
     });
-    console.log(`${insertedPost}:: post`);
+    // console.log(`${insertedPost}:: post`);
     return c.json(insertedPost, 201);
   } catch (error) {
     return c.json(error, 500);
@@ -56,7 +62,7 @@ const fetchAllPost: HandlerFunc = async (c: Context) => {
       return c.json(list, 200);
     }
   } catch (error) {
-    console.log(c);
+    // console.log(c);
     return c.json(error, 500);
   }
 };
@@ -69,6 +75,7 @@ const fetchOnePost: HandlerFunc = async (c: Context) => {
 
     if (fetchedPost) {
       const { _id: { $oid }, title, content, author, date } = fetchedPost;
+
       return c.json({ id: $oid, title, content, author, date }, 200);
     }
 
